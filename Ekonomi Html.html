@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adem Evren Kır - Ekonomik Analiz Paneli - Kasım 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfcf8; /* Warm off-white */
+            color: #334155; /* Slate 700 */
+        }
+
+        /* Specific Chart Container Styling as per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .tab-active {
+            border-bottom: 3px solid #d97706; /* Amber 600 */
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Cream/Beige background) with Amber (Focus), Emerald (Positive), and Slate (Text) for a calm, professional financial aesthetic. -->
+    
+    <!-- Application Structure Plan: 
+         1. Header: Report title and date. Includes Adem Evren Kır's branding.
+         2. Navigation: Tab-based system (Overview, Macro, Global, Market) for non-linear exploration.
+         3. Sections:
+            - Overview: KPI Cards and Adem Evren Kır's personal commentary on education vs. self-effort.
+            - Macro (Turkey): Deep dive into Growth/Inflation with Bar charts.
+            - Global: Comparative view of World/US/EU growth.
+            - Market (BIST): Technical visualization of support/resistance levels.
+            - Future (2026): Interactive accordion/cards for strategy.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="h-8 w-8 bg-amber-500 rounded flex items-center justify-center text-white font-bold mr-3 text-lg">A</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-800 tracking-tight">Adem Evren Kır - Ekonomik Analiz</h1>
+                        <p class="text-xs text-slate-500 font-medium">Kasım 2025 - Kişisel Görünüm</p>
+                    </div>
+                </div>
+                <div class="hidden md:block text-sm text-slate-400">
+                    Hazırlayan: <span class="font-semibold text-slate-600">Adem Evren Kır</span> | 29 Kasım 2025
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-8 -mb-px overflow-x-auto" aria-label="Tabs">
+                <button onclick="switchTab('overview')" id="tab-overview" class="tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    Adem Evren Kır'dan Notlar
+                </button>
+                <button onclick="switchTab('macro')" id="tab-macro" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    Türkiye Makro
+                </button>
+                <button onclick="switchTab('global')" id="tab-global" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    Küresel Görünüm
+                </button>
+                <button onclick="switchTab('market')" id="tab-market" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    BIST & Strateji
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow bg-[#fdfcf8] py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- VIEW: OVERVIEW (Genel Bakış) -->
+            <div id="view-overview" class="space-y-8 animate-fade-in">
+                
+                <!-- Evren's Personal Note Section -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-amber-500 mb-8">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="h-10 w-10 bg-slate-100 rounded-full flex items-center justify-center text-xl">💬</div>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800 mb-2">Diplomadan Öte: Gerçekler</h2>
+                            <p class="text-slate-600 leading-relaxed italic text-lg">
+                                "Yıllarca Uluslararası Ticaret ve Finans okuduk, teorisini yedik yuttuk ama size açık konuşayım; 
+                                bu işlerde bölümün pek bir numarası yok. İster mühendis ol, ister işletmeci... 
+                                Olay tamamen <strong>kişinin kendisinde bitiyor.</strong> Piyasayı koklamayı bilmeyen, 
+                                grafiğin ötesini göremeyen adam en iyi okuldan da mezun olsa nafile. 
+                                İşte benim penceremden, 'kitabi' olmayan gerçek piyasa analizi."
+                            </p>
+                            <p class="mt-4 text-right font-bold text-amber-600">— Adem Evren Kır</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Kasım 2025: Dengelenme ve Dezenflasyon</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        2025 yılının sonuna yaklaşırken, Türkiye ekonomisinde sıkı para politikasının etkileri hissediliyor. 
+                        Büyüme ılımlı bir patikada seyrederken, piyasaların odak noktası enflasyondaki düşüş hızı ve 
+                        yaklaşan 2026 faiz indirim döngüsünde.
+                    </p>
+                </div>
+
+                <!-- KPI Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- KPI 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">TR 3. Çeyrek Büyüme</p>
+                        <div class="mt-2 flex items-baseline">
+                            <span class="text-3xl font-bold text-slate-800">%3,97</span>
+                            <span class="ml-2 text-sm font-medium text-amber-600">Beklenti</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500">
+                            Yumuşak iniş senaryosu işliyor.
+                        </div>
+                    </div>
+                    
+                    <!-- KPI 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">2025 Yıl Sonu Enflasyon</p>
+                        <div class="mt-2 flex items-baseline">
+                            <span class="text-3xl font-bold text-slate-800">%25 - %30</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500">
+                            Yabancı kurumların tahmin aralığı.
+                        </div>
+                    </div>
+
+                    <!-- KPI 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Küresel Büyüme</p>
+                        <div class="mt-2 flex items-baseline">
+                            <span class="text-3xl font-bold text-slate-800">%3,2</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500">
+                            ABD güçlü, Euro Bölgesi zayıf seyrediyor.
+                        </div>
+                    </div>
+
+                    <!-- KPI 4 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">BIST 100 Endeksi</p>
+                        <div class="mt-2 flex items-baseline">
+                            <span class="text-3xl font-bold text-slate-800">10.900</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-500">
+                            11.000 direncini zorluyor.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <!-- Simple Info Icon drawn with CSS/HTML -->
+                            <div class="h-5 w-5 text-amber-500 font-bold text-center border-2 border-amber-500 rounded-full flex items-center justify-center text-xs">i</div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-amber-700">
+                                <strong>Özet:</strong> Ekonomi yönetimi "yumuşak iniş" hedefine sadık. Resesyon riski düşük, ancak iç talepte soğuma belirginleşiyor. Detaylı analiz için yukarıdaki sekmeleri kullanabilirsiniz.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MACRO (Türkiye Makro) -->
+            <div id="view-macro" class="hidden space-y-8 animate-fade-in">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="p-6 border-b border-stone-100">
+                        <h3 class="text-xl font-bold text-slate-800">Büyüme ve Enflasyon Görünümü</h3>
+                        <p class="mt-2 text-slate-600">
+                            Türkiye ekonomisi 2025 genelinde %3,5 büyüme patikasında ilerlerken, dezenflasyon süreci baz etkisi ve sıkı para politikası duruşuyla destekleniyor.
+                            Aşağıdaki grafikler, piyasa beklentileri ile gerçekleşme tahminlerini karşılaştırmaktadır.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
+                        <!-- Chart 1: Growth -->
+                        <div class="flex flex-col">
+                            <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">2025 Büyüme (GSYH) Beklentileri</h4>
+                            <div class="chart-container max-w-xl">
+                                <canvas id="growthChart"></canvas>
+                            </div>
+                            <p class="mt-4 text-xs text-center text-slate-400">Kaynak: Piyasa Anketi Beklentileri</p>
+                        </div>
+
+                        <!-- Chart 2: Inflation -->
+                        <div class="flex flex-col">
+                            <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">Yıl Sonu Enflasyon Tahmin Aralığı</h4>
+                            <div class="chart-container max-w-xl">
+                                <canvas id="inflationChart"></canvas>
+                            </div>
+                            <p class="mt-4 text-xs text-center text-slate-400">IMF, JPMorgan ve Fitch verilerine dayanmaktadır.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2">Para Politikası</h4>
+                        <p class="text-sm text-slate-600">
+                            TCMB'nin sıkı duruşu devam ediyor. Piyasalar, faiz indirim döngüsünün zamanlamasını tartışırken, enflasyondaki düşüşün kalıcılığı ana belirleyici faktör olacak.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2">Riskler & Fırsatlar</h4>
+                        <p class="text-sm text-slate-600">
+                            İç talepteki yavaşlama cari açığı olumlu etkiliyor. Ancak, sanayi üretimindeki ivme kaybı ve küresel talep koşulları risk unsuru olarak izleniyor.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: GLOBAL (Küresel) -->
+            <div id="view-global" class="hidden space-y-8 animate-fade-in">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Text Content -->
+                    <div class="md:w-1/3 space-y-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Küresel Dengeler</h3>
+                            <div class="h-1 w-12 bg-amber-500 mt-2 rounded"></div>
+                        </div>
+                        <p class="text-slate-600 leading-relaxed">
+                            Küresel ekonomi "düşük büyüme, düşen enflasyon" döngüsünde. Merkez bankaları (FED, ECB) gevşeme adımları atsa da, ticaret savaşları ve jeopolitik riskler görünümü bulanıklaştırıyor.
+                        </p>
+                        <div class="bg-white p-4 rounded shadow-sm border border-stone-100">
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2 font-bold">✓</span>
+                                    <span class="text-sm text-slate-700">ABD: Resesyondan kaçış ve yumuşak iniş başarısı.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-amber-500 mr-2 font-bold">!</span>
+                                    <span class="text-sm text-slate-700">Euro Bölgesi: Zayıf toparlanma (%1,3).</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-amber-500 mr-2 font-bold">!</span>
+                                    <span class="text-sm text-slate-700">Riskler: Gümrük tarifeleri ve ticaret savaşları.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Chart Content -->
+                    <div class="md:w-2/3 bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                        <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">Bölgesel Büyüme Karşılaştırması (2025)</h4>
+                        <div class="chart-container max-w-2xl">
+                            <canvas id="globalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MARKET (Borsa & Strateji) -->
+            <div id="view-market" class="hidden space-y-10 animate-fade-in">
+                
+                <!-- BIST 100 Technical Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200">
+                    <div class="p-6 border-b border-stone-100">
+                        <h3 class="text-xl font-bold text-slate-800">BIST 100 Teknik Görünüm</h3>
+                        <p class="mt-2 text-slate-600">
+                            Kasım sonu itibarıyla 10.900 seviyesinde dengelenme çabası sürüyor. Piyasa, destek ve direnç bölgeleri arasına sıkışmış durumda.
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <div class="chart-container max-w-3xl h-64 md:h-80">
+                            <canvas id="bistChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 mt-6 text-center">
+                            <div class="p-3 bg-red-50 rounded border border-red-100">
+                                <div class="text-xs text-red-500 font-bold uppercase">Kritik Destek</div>
+                                <div class="text-lg font-bold text-slate-800">10.700</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                                <div class="text-xs text-slate-500 font-bold uppercase">Mevcut</div>
+                                <div class="text-lg font-bold text-blue-600">10.900</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded border border-green-100">
+                                <div class="text-xs text-green-500 font-bold uppercase">Kritik Direnç</div>
+                                <div class="text-lg font-bold text-slate-800">11.200</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2026 Strategy Section -->
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6">2026 Beklentileri ve Strateji</h3>
+                    <p class="text-slate-600 mb-6">2026'ya girerken yatırımcıların radarında olması gereken 3 ana başlık. Detaylar için kartlara tıklayın.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Strategy Card 1 -->
+                        <div onclick="toggleCard('card1')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-amber-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="font-bold text-lg text-slate-800 group-hover:text-amber-600">Faiz İndirimleri</div>
+                                <span class="text-2xl text-amber-500 font-light">+</span>
+                            </div>
+                            <p class="text-sm text-slate-500">Mevduat vs. Borsa dengesi...</p>
+                            <div id="card1" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                                Faizlerin inmeye başlaması, risksiz getiriyi azaltarak borsayı tekrar cazip hale getirebilir. Zamanlama en kritik faktör.
+                            </div>
+                        </div>
+
+                        <!-- Strategy Card 2 -->
+                        <div onclick="toggleCard('card2')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-emerald-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="font-bold text-lg text-slate-800 group-hover:text-emerald-600">Yabancı Sermaye</div>
+                                <span class="text-2xl text-emerald-500 font-light">+</span>
+                            </div>
+                            <p class="text-sm text-slate-500">Kredi notu ve gri liste etkisi...</p>
+                            <div id="card2" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                                Not artışları ve gri listeden çıkış sonrası, 2026'da doğrudan yatırımların ve sıcak paranın artması, özellikle bankacılık hisselerini destekleyebilir.
+                            </div>
+                        </div>
+
+                        <!-- Strategy Card 3 -->
+                        <div onclick="toggleCard('card3')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-blue-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="font-bold text-lg text-slate-800 group-hover:text-blue-600">Sektör Seçimi</div>
+                                <span class="text-2xl text-blue-500 font-light">+</span>
+                            </div>
+                            <p class="text-sm text-slate-500">Defansif vs. İhracatçı...</p>
+                            <div id="card3" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                                İç talep yavaşlarken gıda/perakende gibi defansif sektörler öne çıkabilir. Kurun seyrine bağlı olarak ihracatçı şirketler yeniden değerlendirilmeli.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-stone-200 mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-400 mb-2">
+                ⚠️ Yasal Uyarı: Burada yer alan yatırım bilgi, yorum ve tavsiyeleri yatırım danışmanlığı kapsamında değildir. 
+                Sadece bilgilendirme amaçlıdır. Veriler Kasım 2025 raporuna dayanmaktadır.
+            </p>
+            <p class="text-sm text-slate-500 font-semibold">
+                — Tasarım ve Yorumlar: Adem Evren Kır —
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        const state = {
+            activeTab: 'overview',
+            chartsInitialized: false
+        };
+
+        // Navigation Logic
+        function switchTab(tabId) {
+            // Update Tab Styling
+            ['overview', 'macro', 'global', 'market'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                const content = document.getElementById(`view-${id}`);
+                
+                if (id === tabId) {
+                    btn.className = "tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200";
+                    content.classList.add('hidden');
+                }
+            });
+
+            state.activeTab = tabId;
+
+            // Lazy Load Charts to ensure Canvas has dimensions
+            if (!state.chartsInitialized) {
+                initCharts();
+                state.chartsInitialized = true;
+            }
+        }
+
+        // Accordion Logic for Cards
+        function toggleCard(cardId) {
+            const content = document.getElementById(cardId);
+            content.classList.toggle('hidden');
+        }
+
+        // Chart Initialization
+        function initCharts() {
+            // Chart 1: Turkey Growth
+            const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+            new Chart(ctxGrowth, {
+                type: 'bar',
+                data: {
+                    labels: ['3. Çeyrek Beklentisi', '2025 Yıl Sonu Beklentisi'],
+                    datasets: [{
+                        label: 'Büyüme Oranı (%)',
+                        data: [3.97, 3.5],
+                        backgroundColor: ['#d97706', '#475569'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 5 }
+                    }
+                }
+            });
+
+            // Chart 2: Inflation Range
+            const ctxInflation = document.getElementById('inflationChart').getContext('2d');
+            new Chart(ctxInflation, {
+                type: 'bar',
+                data: {
+                    labels: ['IMF/Yabancı Kurum Beklentisi'],
+                    datasets: [
+                        {
+                            label: 'Min Tahmin',
+                            data: [25],
+                            backgroundColor: 'rgba(5, 150, 105, 0.5)', // Emerald
+                            barPercentage: 0.5,
+                            stack: 'Stack 0',
+                        },
+                        {
+                            label: 'Fark (Max Tahmine)',
+                            data: [5], // 30 - 25
+                            backgroundColor: 'rgba(5, 150, 105, 0.2)',
+                            barPercentage: 0.5,
+                            stack: 'Stack 0',
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if(context.datasetIndex === 0) return 'Alt Sınır: %25';
+                                    if(context.datasetIndex === 1) return 'Üst Sınır: %30';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { min: 0, max: 40 }
+                    }
+                }
+            });
+
+            // Chart 3: Global Growth Comparison
+            const ctxGlobal = document.getElementById('globalChart').getContext('2d');
+            new Chart(ctxGlobal, {
+                type: 'polarArea',
+                data: {
+                    labels: ['Dünya Ort.', 'Türkiye', 'Euro Bölgesi'],
+                    datasets: [{
+                        label: 'Büyüme %',
+                        data: [3.2, 3.5, 1.3],
+                        backgroundColor: [
+                            'rgba(71, 85, 105, 0.7)', // Slate
+                            'rgba(217, 119, 6, 0.7)', // Amber
+                            'rgba(59, 130, 246, 0.7)' // Blue
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Chart 4: BIST 100 Technical Levels Visualization
+            // Using a scatter chart to visualize levels on a vertical axis equivalent
+            const ctxBist = document.getElementById('bistChart').getContext('2d');
+            new Chart(ctxBist, {
+                type: 'line',
+                data: {
+                    labels: ['Destek 2', 'Destek 1', 'Mevcut', 'Direnç 1', 'Direnç 2'],
+                    datasets: [{
+                        label: 'Fiyat Seviyeleri',
+                        data: [10700, 10850, 10900, 11100, 11200],
+                        borderColor: '#94a3b8',
+                        borderWidth: 2,
+                        pointBackgroundColor: ['#ef4444', '#f87171', '#3b82f6', '#4ade80', '#22c55e'],
+                        pointRadius: [6, 6, 10, 6, 6],
+                        pointHoverRadius: 12,
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.parsed.y;
+                                    if (context.dataIndex === 2) return `ŞU AN: ${label}`;
+                                    return `Seviye: ${label}`;
+                                }
+                            }
+                        },
+                        annotation: {
+                            // Note: Annotation plugin not loaded to keep simple, utilizing labels/points
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 10500,
+                            max: 11500,
+                            title: { display: true, text: 'Puan' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize with charts ready if needed immediately, but usually on tab switch
+        // document.addEventListener('DOMContentLoaded', initCharts);
+        
+    </script>
+</body>
+</html>
