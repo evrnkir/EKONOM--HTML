@@ -11,8 +11,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fdfcf8; /* Warm off-white */
-            color: #334155; /* Slate 700 */
+            background-color: #0f172a; /* Slate 900 - Deep Dark */
+            color: #e2e8f0; /* Slate 200 - Light Text */
         }
 
         /* Specific Chart Container Styling as per requirements */
@@ -30,64 +30,82 @@
             }
         }
 
-        /* Custom Scrollbar for clean look */
+        /* Custom Scrollbar for Dark Mode */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #1e293b; /* Slate 800 */
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #475569; /* Slate 600 */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #64748b; /* Slate 500 */
         }
 
         .tab-active {
-            border-bottom: 3px solid #d97706; /* Amber 600 */
-            color: #d97706;
+            border-bottom: 3px solid #f59e0b; /* Amber 500 */
+            color: #f59e0b;
             font-weight: 700;
+        }
+        
+        /* Non-active tab hover in dark mode */
+        .tab-inactive:hover {
+            color: #e2e8f0;
+            border-color: #475569;
         }
 
         .card-hover:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            border-color: #f59e0b; /* Amber border on hover */
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
-    <!-- Chosen Palette: Warm Neutrals with Amber/Emerald/Blue accents -->
+    <!-- Chosen Palette: Dark Mode Pro (Slate 900 background, Slate 800 cards, Amber/Emerald/Blue neon accents) -->
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <div class="h-8 w-8 bg-amber-500 rounded flex items-center justify-center text-white font-bold mr-3 text-lg">A</div>
+                    <div class="h-8 w-8 bg-amber-500 rounded flex items-center justify-center text-slate-900 font-bold mr-3 text-lg">A</div>
                     <div>
-                        <h1 class="text-xl font-bold text-slate-800 tracking-tight">Adem Evren Kır - Ekonomik Analiz</h1>
-                        <p class="text-xs text-slate-500 font-medium">Kasım 2025 - Kişisel Görünüm</p>
+                        <h1 class="text-xl font-bold text-white tracking-tight">Adem Evren Kır</h1>
+                        <p class="text-xs text-slate-400 font-medium">Global Macro & Strateji</p>
                     </div>
                 </div>
-                <div class="hidden md:block text-sm text-slate-400">
-                    Hazırlayan: <span class="font-semibold text-slate-600">Adem Evren Kır</span> | 29 Kasım 2025
+                <div class="hidden md:block text-sm text-slate-500">
+                    <span class="font-semibold text-slate-300">Kasım 2025 Raporu</span> | Dark Mode
                 </div>
             </div>
             
             <!-- Navigation Tabs -->
-            <nav class="flex space-x-8 -mb-px overflow-x-auto" aria-label="Tabs">
+            <nav class="flex space-x-6 -mb-px overflow-x-auto" aria-label="Tabs">
                 <button onclick="switchTab('overview')" id="tab-overview" class="tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
-                    Adem Evren Kır'dan Notlar
+                    Notlar & Özet
                 </button>
-                <button onclick="switchTab('macro')" id="tab-macro" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                <button onclick="switchTab('macro')" id="tab-macro" class="tab-inactive border-transparent text-slate-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
                     Türkiye Makro
                 </button>
-                <button onclick="switchTab('global')" id="tab-global" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
-                    Dünya & ABD Piyasaları
+                <button onclick="switchTab('global')" id="tab-global" class="tab-inactive border-transparent text-slate-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    Dünya & ABD
                 </button>
-                <button onclick="switchTab('market')" id="tab-market" class="border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                <button onclick="switchTab('gurus')" id="tab-gurus" class="tab-inactive border-transparent text-slate-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                    👑 Guru Portföyleri
+                </button>
+                <button onclick="switchTab('market')" id="tab-market" class="tab-inactive border-transparent text-slate-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
                     BIST & Strateji
                 </button>
             </nav>
@@ -95,98 +113,96 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-grow bg-[#fdfcf8] py-8">
+    <main class="flex-grow py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- VIEW: OVERVIEW (Genel Bakış) -->
             <div id="view-overview" class="space-y-8 animate-fade-in">
                 
                 <!-- Evren's Personal Note Section -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-amber-500 mb-8">
+                <div class="bg-slate-800 p-8 rounded-xl shadow-lg border-l-4 border-amber-500 mb-8">
                     <div class="flex items-start gap-4">
                         <div class="flex-shrink-0 pt-1">
-                            <div class="h-10 w-10 bg-slate-100 rounded-full flex items-center justify-center text-xl">💬</div>
+                            <div class="h-10 w-10 bg-slate-700 rounded-full flex items-center justify-center text-xl">💬</div>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-800 mb-2">Diplomadan Öte: Gerçekler</h2>
-                            <p class="text-slate-600 leading-relaxed italic text-lg">
+                            <h2 class="text-2xl font-bold text-white mb-2">Diplomadan Öte: Gerçekler</h2>
+                            <p class="text-slate-300 leading-relaxed italic text-lg">
                                 "Yıllarca Uluslararası Ticaret ve Finans okuduk, teorisini yedik yuttuk ama size açık konuşayım; 
                                 bu işlerde bölümün pek bir numarası yok. İster mühendis ol, ister işletmeci... 
                                 Olay tamamen <strong>kişinin kendisinde bitiyor.</strong> Piyasayı koklamayı bilmeyen, 
                                 grafiğin ötesini göremeyen adam en iyi okuldan da mezun olsa nafile. 
                                 İşte benim penceremden, 'kitabi' olmayan gerçek piyasa analizi."
                             </p>
-                            <p class="mt-4 text-right font-bold text-amber-600">— Adem Evren Kır</p>
+                            <p class="mt-4 text-right font-bold text-amber-500">— Adem Evren Kır</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="text-center max-w-3xl mx-auto mb-10">
-                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Kasım 2025: Dengelenme ve Dezenflasyon</h2>
-                    <p class="text-lg text-slate-600 leading-relaxed">
+                    <h2 class="text-3xl font-bold text-white mb-4">Kasım 2025: Dengelenme ve Dezenflasyon</h2>
+                    <p class="text-lg text-slate-400 leading-relaxed">
                         2025 yılının sonuna yaklaşırken, Türkiye ekonomisinde sıkı para politikasının etkileri hissediliyor. 
-                        Büyüme ılımlı bir patikada seyrederken, piyasaların odak noktası enflasyondaki düşüş hızı ve 
-                        yaklaşan 2026 faiz indirim döngüsünde.
+                        Piyasaların odak noktası enflasyondaki düşüş hızı ve 2026 faiz indirim döngüsünde.
                     </p>
                 </div>
 
                 <!-- KPI Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- KPI 1 -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
-                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">TR 3. Çeyrek Büyüme</p>
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">TR 3. Çeyrek Büyüme</p>
                         <div class="mt-2 flex items-baseline">
-                            <span class="text-3xl font-bold text-slate-800">%3,97</span>
-                            <span class="ml-2 text-sm font-medium text-amber-600">Beklenti</span>
+                            <span class="text-3xl font-bold text-white">%3,97</span>
+                            <span class="ml-2 text-sm font-medium text-amber-500">Beklenti</span>
                         </div>
-                        <div class="mt-4 text-sm text-slate-500">
+                        <div class="mt-4 text-sm text-slate-400">
                             Yumuşak iniş senaryosu işliyor.
                         </div>
                     </div>
                     
                     <!-- KPI 2 -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
-                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">2025 Yıl Sonu Enflasyon</p>
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">2025 Yıl Sonu Enflasyon</p>
                         <div class="mt-2 flex items-baseline">
-                            <span class="text-3xl font-bold text-slate-800">%25 - %30</span>
+                            <span class="text-3xl font-bold text-white">%25 - %30</span>
                         </div>
-                        <div class="mt-4 text-sm text-slate-500">
+                        <div class="mt-4 text-sm text-slate-400">
                             Yabancı kurumların tahmin aralığı.
                         </div>
                     </div>
 
                     <!-- KPI 3 -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
-                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Küresel Büyüme</p>
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Küresel Büyüme</p>
                         <div class="mt-2 flex items-baseline">
-                            <span class="text-3xl font-bold text-slate-800">%3,2</span>
+                            <span class="text-3xl font-bold text-white">%3,2</span>
                         </div>
-                        <div class="mt-4 text-sm text-slate-500">
-                            ABD güçlü, Euro Bölgesi zayıf seyrediyor.
+                        <div class="mt-4 text-sm text-slate-400">
+                            ABD güçlü, Euro Bölgesi zayıf.
                         </div>
                     </div>
 
                     <!-- KPI 4 -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 card-hover transition-all">
-                        <p class="text-sm font-semibold text-slate-400 uppercase tracking-wider">BIST 100 Endeksi</p>
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover transition-all">
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">BIST 100 Endeksi</p>
                         <div class="mt-2 flex items-baseline">
-                            <span class="text-3xl font-bold text-slate-800">10.900</span>
+                            <span class="text-3xl font-bold text-white">10.900</span>
                         </div>
-                        <div class="mt-4 text-sm text-slate-500">
+                        <div class="mt-4 text-sm text-slate-400">
                             11.000 direncini zorluyor.
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                <div class="mt-8 bg-amber-900/20 border-l-4 border-amber-600 p-4 rounded-r-lg">
                     <div class="flex">
                         <div class="flex-shrink-0">
-                            <!-- Simple Info Icon drawn with CSS/HTML -->
                             <div class="h-5 w-5 text-amber-500 font-bold text-center border-2 border-amber-500 rounded-full flex items-center justify-center text-xs">i</div>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm text-amber-700">
-                                <strong>Özet:</strong> Ekonomi yönetimi "yumuşak iniş" hedefine sadık. Resesyon riski düşük, ancak iç talepte soğuma belirginleşiyor. Detaylı analiz için yukarıdaki sekmeleri kullanabilirsiniz.
+                            <p class="text-sm text-amber-500">
+                                <strong>Özet:</strong> Ekonomi yönetimi "yumuşak iniş" hedefine sadık. Resesyon riski düşük, ancak iç talepte soğuma belirginleşiyor. Detaylı analiz için sekmeleri kullanın.
                             </p>
                         </div>
                     </div>
@@ -195,12 +211,11 @@
 
             <!-- VIEW: MACRO (Türkiye Makro) -->
             <div id="view-macro" class="hidden space-y-8 animate-fade-in">
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
-                    <div class="p-6 border-b border-stone-100">
-                        <h3 class="text-xl font-bold text-slate-800">Büyüme ve Enflasyon Görünümü</h3>
-                        <p class="mt-2 text-slate-600">
+                <div class="bg-slate-800 rounded-xl shadow-md border border-slate-700 overflow-hidden">
+                    <div class="p-6 border-b border-slate-700">
+                        <h3 class="text-xl font-bold text-white">Büyüme ve Enflasyon Görünümü</h3>
+                        <p class="mt-2 text-slate-400">
                             Türkiye ekonomisi 2025 genelinde %3,5 büyüme patikasında ilerlerken, dezenflasyon süreci baz etkisi ve sıkı para politikası duruşuyla destekleniyor.
-                            Aşağıdaki grafikler, piyasa beklentileri ile gerçekleşme tahminlerini karşılaştırmaktadır.
                         </p>
                     </div>
                     
@@ -211,7 +226,7 @@
                             <div class="chart-container max-w-xl">
                                 <canvas id="growthChart"></canvas>
                             </div>
-                            <p class="mt-4 text-xs text-center text-slate-400">Kaynak: Piyasa Anketi Beklentileri</p>
+                            <p class="mt-4 text-xs text-center text-slate-500">Kaynak: Piyasa Anketi Beklentileri</p>
                         </div>
 
                         <!-- Chart 2: Inflation -->
@@ -220,34 +235,34 @@
                             <div class="chart-container max-w-xl">
                                 <canvas id="inflationChart"></canvas>
                             </div>
-                            <p class="mt-4 text-xs text-center text-slate-400">IMF, JPMorgan ve Fitch verilerine dayanmaktadır.</p>
+                            <p class="mt-4 text-xs text-center text-slate-500">IMF, JPMorgan ve Fitch verilerine dayanmaktadır.</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h4 class="font-bold text-slate-800 mb-2">Para Politikası</h4>
-                        <p class="text-sm text-slate-600">
+                    <div class="bg-slate-700/50 p-5 rounded-lg border border-slate-600">
+                        <h4 class="font-bold text-white mb-2">Para Politikası</h4>
+                        <p class="text-sm text-slate-300">
                             TCMB'nin sıkı duruşu devam ediyor. Piyasalar, faiz indirim döngüsünün zamanlamasını tartışırken, enflasyondaki düşüşün kalıcılığı ana belirleyici faktör olacak.
                         </p>
                     </div>
-                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
-                        <h4 class="font-bold text-slate-800 mb-2">Riskler & Fırsatlar</h4>
-                        <p class="text-sm text-slate-600">
+                    <div class="bg-slate-700/50 p-5 rounded-lg border border-slate-600">
+                        <h4 class="font-bold text-white mb-2">Riskler & Fırsatlar</h4>
+                        <p class="text-sm text-slate-300">
                             İç talepteki yavaşlama cari açığı olumlu etkiliyor. Ancak, sanayi üretimindeki ivme kaybı ve küresel talep koşulları risk unsuru olarak izleniyor.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- VIEW: GLOBAL (Dünya & ABD) - UPDATED -->
+            <!-- VIEW: GLOBAL (Dünya & ABD) -->
             <div id="view-global" class="hidden space-y-8 animate-fade-in">
                 
                 <!-- Adem's US Market Note -->
-                <div class="bg-blue-50 p-6 rounded-xl border-l-4 border-blue-500">
-                    <h3 class="font-bold text-blue-800 text-lg mb-2">🇺🇸 Adem Evren Kır'dan ABD Notu:</h3>
-                    <p class="text-blue-900 italic">
+                <div class="bg-blue-900/20 p-6 rounded-xl border-l-4 border-blue-500">
+                    <h3 class="font-bold text-blue-400 text-lg mb-2">🇺🇸 Adem Evren Kır'dan ABD Notu:</h3>
+                    <p class="text-blue-200 italic">
                         "Amerika'da işler sadece Fed'in ağzına bakmıyor artık. Teknoloji devleri (Mag-7) ve yapay zeka hikayesi, faizden bile daha büyük bir itici güç oldu. 
                         S&P 500'deki ralliyi kaçıranlar, 'balon patlayacak' diye beklerken trendi ıskalıyor. Borsada duyguya yer yok; trend dostunuzdur."
                     </p>
@@ -256,37 +271,37 @@
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- Global Growth Section -->
                     <div class="lg:w-1/2 space-y-6">
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 h-full">
+                        <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 h-full">
                             <h4 class="text-sm font-bold text-slate-500 uppercase mb-4 text-center">Küresel Büyüme Dengesi</h4>
                             <div class="chart-container">
                                 <canvas id="globalChart"></canvas>
                             </div>
-                            <div class="mt-6 text-sm text-slate-600">
-                                <p class="mb-2"><strong class="text-slate-800">ABD:</strong> Resesyondan kaçtı, "yumuşak iniş" başarıldı.</p>
-                                <p class="mb-2"><strong class="text-slate-800">Euro Bölgesi:</strong> %1.3 büyüme ile hala toparlanma sancıları çekiyor.</p>
-                                <p><strong class="text-slate-800">Çin:</strong> Teşvik paketlerine rağmen talep sorunu sürüyor.</p>
+                            <div class="mt-6 text-sm text-slate-400">
+                                <p class="mb-2"><strong class="text-white">ABD:</strong> Resesyondan kaçtı, "yumuşak iniş" başarıldı.</p>
+                                <p class="mb-2"><strong class="text-white">Euro Bölgesi:</strong> %1.3 büyüme ile hala toparlanma sancıları çekiyor.</p>
+                                <p><strong class="text-white">Çin:</strong> Teşvik paketlerine rağmen talep sorunu sürüyor.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- US Markets Section -->
                     <div class="lg:w-1/2 space-y-6">
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 h-full">
+                        <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 h-full">
                             <div class="flex justify-between items-center mb-4">
                                 <h4 class="text-sm font-bold text-slate-500 uppercase">ABD Endeksleri & Beklentiler</h4>
-                                <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">Bullish</span>
+                                <span class="bg-emerald-900 text-emerald-300 text-xs font-bold px-2 py-1 rounded border border-emerald-700">Bullish</span>
                             </div>
                             <div class="chart-container">
                                 <canvas id="usChart"></canvas>
                             </div>
                             <div class="grid grid-cols-2 gap-4 mt-6">
-                                <div class="bg-slate-50 p-3 rounded text-center">
-                                    <div class="text-xs text-slate-500">Fed Faiz Beklentisi (2026)</div>
-                                    <div class="font-bold text-slate-800">%3.00 - %3.50</div>
+                                <div class="bg-slate-700 p-3 rounded text-center">
+                                    <div class="text-xs text-slate-400">Fed Faiz Beklentisi (2026)</div>
+                                    <div class="font-bold text-white">%3.00 - %3.50</div>
                                 </div>
-                                <div class="bg-slate-50 p-3 rounded text-center">
-                                    <div class="text-xs text-slate-500">S&P 500 Hedef</div>
-                                    <div class="font-bold text-slate-800">6.200+</div>
+                                <div class="bg-slate-700 p-3 rounded text-center">
+                                    <div class="text-xs text-slate-400">S&P 500 Hedef</div>
+                                    <div class="font-bold text-white">6.200+</div>
                                 </div>
                             </div>
                         </div>
@@ -294,14 +309,115 @@
                 </div>
             </div>
 
+            <!-- VIEW: GURU PORTFOLIOS (NEW) -->
+            <div id="view-gurus" class="hidden space-y-8 animate-fade-in">
+                 <div class="bg-slate-800 p-6 rounded-xl border-l-4 border-purple-500 mb-6">
+                    <h3 class="font-bold text-purple-400 text-lg mb-2">👑 Büyük Para Nereye Gidiyor?</h3>
+                    <p class="text-slate-300 italic">
+                        "Küçük yatırımcı rüzgara kapılır, büyük yatırımcı rüzgarı yaratır. Warren Buffett nakit biriktiriyorsa bir bildiği vardır, Burry Çin'e oynuyorsa bir fırsat görüyordur. İşte masadaki kartlar:"
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Warren Buffett Card -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-white">Warren Buffett</h4>
+                                <p class="text-xs text-slate-500">Berkshire Hathaway</p>
+                            </div>
+                            <div class="text-2xl">🦅</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm border-b border-slate-700 pb-2">
+                                <span class="text-slate-400">Strateji</span>
+                                <span class="text-white font-medium">Değer / Nakit Kraldır</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-slate-700 pb-2">
+                                <span class="text-slate-400">En Büyük Varlık</span>
+                                <span class="text-white font-medium">Apple (AAPL)</span>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-xs text-slate-400 mb-2 font-bold">Son Hamleleri:</p>
+                                <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+                                    <li>Rekor düzeyde nakit (300M$+)</li>
+                                    <li>Apple hisselerini azalttı</li>
+                                    <li>Petrol (Occidental) alımı</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Michael Burry Card -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-white">Michael Burry</h4>
+                                <p class="text-xs text-slate-500">Scion Asset Mgmt</p>
+                            </div>
+                            <div class="text-2xl">🐻</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm border-b border-slate-700 pb-2">
+                                <span class="text-slate-400">Strateji</span>
+                                <span class="text-white font-medium">Contrarian / Short</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-slate-700 pb-2">
+                                <span class="text-slate-400">Sürpriz Bahis</span>
+                                <span class="text-white font-medium">Çin Teknolojisi</span>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-xs text-slate-400 mb-2 font-bold">Son Hamleleri:</p>
+                                <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+                                    <li>Alibaba & JD.com alımları</li>
+                                    <li>S&P 500 Puts (Düşüş bahsi)</li>
+                                    <li>Fiziki Altın ETF'leri</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Whales / BlackRock Card -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 card-hover">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-white">Akıllı Para (Smart Money)</h4>
+                                <p class="text-xs text-slate-500">Kurumsal Fonlar</p>
+                            </div>
+                            <div class="text-2xl">🐋</div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm border-b border-slate-700 pb-2">
+                                <span class="text-slate-400">Odak</span>
+                                <span class="text-white font-medium">Yapay Zeka & Enerji</span>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-xs text-slate-400 mb-2 font-bold">En Çok Toplananlar:</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-slate-700 text-emerald-400 text-xs px-2 py-1 rounded">NVDA</span>
+                                    <span class="bg-slate-700 text-emerald-400 text-xs px-2 py-1 rounded">MSFT</span>
+                                    <span class="bg-slate-700 text-emerald-400 text-xs px-2 py-1 rounded">AMZN</span>
+                                    <span class="bg-slate-700 text-blue-400 text-xs px-2 py-1 rounded">XLE (Enerji)</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-3 italic">
+                                    "Kurumsallar AI altyapısına ve bu altyapıyı besleyecek enerji şirketlerine (Nükleer/Yenilenebilir) akıyor."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <!-- VIEW: MARKET (Borsa & Strateji) -->
             <div id="view-market" class="hidden space-y-10 animate-fade-in">
                 
                 <!-- BIST 100 Technical Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200">
-                    <div class="p-6 border-b border-stone-100">
-                        <h3 class="text-xl font-bold text-slate-800">BIST 100 Teknik Görünüm</h3>
-                        <p class="mt-2 text-slate-600">
+                <div class="bg-slate-800 rounded-xl shadow-md border border-slate-700">
+                    <div class="p-6 border-b border-slate-700">
+                        <h3 class="text-xl font-bold text-white">BIST 100 Teknik Görünüm</h3>
+                        <p class="mt-2 text-slate-400">
                             Kasım sonu itibarıyla 10.900 seviyesinde dengelenme çabası sürüyor. Piyasa, destek ve direnç bölgeleri arasına sıkışmış durumda.
                         </p>
                     </div>
@@ -310,17 +426,17 @@
                             <canvas id="bistChart"></canvas>
                         </div>
                         <div class="grid grid-cols-3 gap-4 mt-6 text-center">
-                            <div class="p-3 bg-red-50 rounded border border-red-100">
-                                <div class="text-xs text-red-500 font-bold uppercase">Kritik Destek</div>
-                                <div class="text-lg font-bold text-slate-800">10.700</div>
+                            <div class="p-3 bg-red-900/20 rounded border border-red-800/50">
+                                <div class="text-xs text-red-400 font-bold uppercase">Kritik Destek</div>
+                                <div class="text-lg font-bold text-white">10.700</div>
                             </div>
-                            <div class="p-3 bg-slate-50 rounded border border-slate-200">
-                                <div class="text-xs text-slate-500 font-bold uppercase">Mevcut</div>
-                                <div class="text-lg font-bold text-blue-600">10.900</div>
+                            <div class="p-3 bg-slate-700 rounded border border-slate-600">
+                                <div class="text-xs text-blue-400 font-bold uppercase">Mevcut</div>
+                                <div class="text-lg font-bold text-white">10.900</div>
                             </div>
-                            <div class="p-3 bg-green-50 rounded border border-green-100">
-                                <div class="text-xs text-green-500 font-bold uppercase">Kritik Direnç</div>
-                                <div class="text-lg font-bold text-slate-800">11.200</div>
+                            <div class="p-3 bg-green-900/20 rounded border border-green-800/50">
+                                <div class="text-xs text-green-400 font-bold uppercase">Kritik Direnç</div>
+                                <div class="text-lg font-bold text-white">11.200</div>
                             </div>
                         </div>
                     </div>
@@ -328,42 +444,42 @@
 
                 <!-- 2026 Strategy Section -->
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-6">2026 Beklentileri ve Strateji</h3>
-                    <p class="text-slate-600 mb-6">2026'ya girerken yatırımcıların radarında olması gereken 3 ana başlık. Detaylar için kartlara tıklayın.</p>
+                    <h3 class="text-2xl font-bold text-white mb-6">2026 Beklentileri ve Strateji</h3>
+                    <p class="text-slate-400 mb-6">2026'ya girerken yatırımcıların radarında olması gereken 3 ana başlık. Detaylar için kartlara tıklayın.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Strategy Card 1 -->
-                        <div onclick="toggleCard('card1')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-amber-400 transition-colors group">
+                        <div onclick="toggleCard('card1')" class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 cursor-pointer hover:border-amber-500 transition-colors group">
                             <div class="flex items-center justify-between mb-4">
-                                <div class="font-bold text-lg text-slate-800 group-hover:text-amber-600">Faiz İndirimleri</div>
+                                <div class="font-bold text-lg text-white group-hover:text-amber-500">Faiz İndirimleri</div>
                                 <span class="text-2xl text-amber-500 font-light">+</span>
                             </div>
-                            <p class="text-sm text-slate-500">Mevduat vs. Borsa dengesi...</p>
-                            <div id="card1" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                            <p class="text-sm text-slate-400">Mevduat vs. Borsa dengesi...</p>
+                            <div id="card1" class="hidden mt-4 pt-4 border-t border-slate-700 text-sm text-slate-300 leading-relaxed">
                                 Faizlerin inmeye başlaması, risksiz getiriyi azaltarak borsayı tekrar cazip hale getirebilir. Zamanlama en kritik faktör.
                             </div>
                         </div>
 
                         <!-- Strategy Card 2 -->
-                        <div onclick="toggleCard('card2')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-emerald-400 transition-colors group">
+                        <div onclick="toggleCard('card2')" class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 cursor-pointer hover:border-emerald-500 transition-colors group">
                             <div class="flex items-center justify-between mb-4">
-                                <div class="font-bold text-lg text-slate-800 group-hover:text-emerald-600">Yabancı Sermaye</div>
+                                <div class="font-bold text-lg text-white group-hover:text-emerald-500">Yabancı Sermaye</div>
                                 <span class="text-2xl text-emerald-500 font-light">+</span>
                             </div>
-                            <p class="text-sm text-slate-500">Kredi notu ve gri liste etkisi...</p>
-                            <div id="card2" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                            <p class="text-sm text-slate-400">Kredi notu ve gri liste etkisi...</p>
+                            <div id="card2" class="hidden mt-4 pt-4 border-t border-slate-700 text-sm text-slate-300 leading-relaxed">
                                 Not artışları ve gri listeden çıkış sonrası, 2026'da doğrudan yatırımların ve sıcak paranın artması, özellikle bankacılık hisselerini destekleyebilir.
                             </div>
                         </div>
 
                         <!-- Strategy Card 3 -->
-                        <div onclick="toggleCard('card3')" class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 cursor-pointer hover:border-blue-400 transition-colors group">
+                        <div onclick="toggleCard('card3')" class="bg-slate-800 p-6 rounded-xl shadow-md border border-slate-700 cursor-pointer hover:border-blue-500 transition-colors group">
                             <div class="flex items-center justify-between mb-4">
-                                <div class="font-bold text-lg text-slate-800 group-hover:text-blue-600">Sektör Seçimi</div>
+                                <div class="font-bold text-lg text-white group-hover:text-blue-500">Sektör Seçimi</div>
                                 <span class="text-2xl text-blue-500 font-light">+</span>
                             </div>
-                            <p class="text-sm text-slate-500">Defansif vs. İhracatçı...</p>
-                            <div id="card3" class="hidden mt-4 pt-4 border-t border-slate-100 text-sm text-slate-700 leading-relaxed">
+                            <p class="text-sm text-slate-400">Defansif vs. İhracatçı...</p>
+                            <div id="card3" class="hidden mt-4 pt-4 border-t border-slate-700 text-sm text-slate-300 leading-relaxed">
                                 İç talep yavaşlarken gıda/perakende gibi defansif sektörler öne çıkabilir. Kurun seyrine bağlı olarak ihracatçı şirketler yeniden değerlendirilmeli.
                             </div>
                         </div>
@@ -375,13 +491,13 @@
         </div>
     </main>
 
-    <footer class="bg-white border-t border-stone-200 mt-auto py-6">
+    <footer class="bg-slate-800 border-t border-slate-700 mt-auto py-6">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-xs text-slate-400 mb-2">
+            <p class="text-xs text-slate-500 mb-2">
                 ⚠️ Yasal Uyarı: Burada yer alan yatırım bilgi, yorum ve tavsiyeleri yatırım danışmanlığı kapsamında değildir. 
                 Sadece bilgilendirme amaçlıdır. Veriler Kasım 2025 raporuna dayanmaktadır.
             </p>
-            <p class="text-sm text-slate-500 font-semibold">
+            <p class="text-sm text-slate-400 font-semibold">
                 — Tasarım ve Yorumlar: Adem Evren Kır —
             </p>
         </div>
@@ -397,7 +513,7 @@
         // Navigation Logic
         function switchTab(tabId) {
             // Update Tab Styling
-            ['overview', 'macro', 'global', 'market'].forEach(id => {
+            ['overview', 'macro', 'global', 'gurus', 'market'].forEach(id => {
                 const btn = document.getElementById(`tab-${id}`);
                 const content = document.getElementById(`view-${id}`);
                 
@@ -405,7 +521,7 @@
                     btn.className = "tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200";
                     content.classList.remove('hidden');
                 } else {
-                    btn.className = "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200";
+                    btn.className = "tab-inactive border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-500 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200";
                     content.classList.add('hidden');
                 }
             });
@@ -425,6 +541,10 @@
             content.classList.toggle('hidden');
         }
 
+        // Global Chart Defaults for Dark Mode
+        Chart.defaults.color = '#94a3b8'; // Slate 400 for text
+        Chart.defaults.borderColor = '#334155'; // Slate 700 for grid lines
+
         // Chart Initialization
         function initCharts() {
             // Chart 1: Turkey Growth
@@ -436,7 +556,7 @@
                     datasets: [{
                         label: 'Büyüme Oranı (%)',
                         data: [3.97, 3.5],
-                        backgroundColor: ['#d97706', '#475569'],
+                        backgroundColor: ['#f59e0b', '#64748b'], // Amber & Slate
                         borderRadius: 6
                     }]
                 },
@@ -462,14 +582,14 @@
                         {
                             label: 'Min Tahmin',
                             data: [25],
-                            backgroundColor: 'rgba(5, 150, 105, 0.5)', // Emerald
+                            backgroundColor: 'rgba(16, 185, 129, 0.5)', // Emerald
                             barPercentage: 0.5,
                             stack: 'Stack 0',
                         },
                         {
                             label: 'Fark (Max Tahmine)',
                             data: [5], // 30 - 25
-                            backgroundColor: 'rgba(5, 150, 105, 0.2)',
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
                             barPercentage: 0.5,
                             stack: 'Stack 0',
                         }
@@ -505,11 +625,12 @@
                         label: 'Büyüme %',
                         data: [3.2, 3.5, 1.3, 2.5],
                         backgroundColor: [
-                            'rgba(71, 85, 105, 0.7)', // Slate (Dünya)
-                            'rgba(217, 119, 6, 0.7)', // Amber (Türkiye)
+                            'rgba(148, 163, 184, 0.7)', // Slate (Dünya)
+                            'rgba(245, 158, 11, 0.7)', // Amber (Türkiye)
                             'rgba(59, 130, 246, 0.7)', // Blue (Euro)
                             'rgba(16, 185, 129, 0.7)'  // Emerald (ABD)
-                        ]
+                        ],
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -517,11 +638,17 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        r: {
+                            grid: { color: '#334155' },
+                            ticks: { backdropColor: 'transparent' }
+                        }
                     }
                 }
             });
 
-            // Chart 4: US Indices Performance (New)
+            // Chart 4: US Indices Performance
             const ctxUS = document.getElementById('usChart').getContext('2d');
             new Chart(ctxUS, {
                 type: 'bar',
@@ -529,10 +656,10 @@
                     labels: ['S&P 500 (YTD)', 'Nasdaq (YTD)', 'Fed Faiz'],
                     datasets: [{
                         label: 'Performans / Seviye (%)',
-                        data: [24.5, 28.2, 4.50], // Örnek YTD verileri ve mevcut Fed faizi
+                        data: [24.5, 28.2, 4.50],
                         backgroundColor: [
-                            'rgba(37, 99, 235, 0.8)', // Blue
-                            'rgba(147, 51, 234, 0.8)', // Purple
+                            'rgba(59, 130, 246, 0.8)', // Blue
+                            'rgba(168, 85, 247, 0.8)', // Purple
                             'rgba(239, 68, 68, 0.8)'   // Red
                         ],
                         borderRadius: 6
@@ -558,7 +685,6 @@
             });
 
             // Chart 5: BIST 100 Technical Levels Visualization
-            // Using a scatter chart to visualize levels on a vertical axis equivalent
             const ctxBist = document.getElementById('bistChart').getContext('2d');
             new Chart(ctxBist, {
                 type: 'line',
@@ -589,16 +715,17 @@
                                     return `Seviye: ${label}`;
                                 }
                             }
-                        },
-                        annotation: {
-                            // Note: Annotation plugin not loaded to keep simple, utilizing labels/points
                         }
                     },
                     scales: {
                         y: {
                             min: 10500,
                             max: 11500,
-                            title: { display: true, text: 'Puan' }
+                            title: { display: true, text: 'Puan' },
+                            grid: { color: '#334155' }
+                        },
+                        x: {
+                            grid: { color: '#334155' }
                         }
                     }
                 }
